@@ -114,7 +114,7 @@ describe('Cadastro Simples de Usuário', () => {
   })
 
   // Teste de Erro
-  it('Buscar usuário por ID e verificar que ele foi excluido', () => {
+  it('Teste de Erro', () => {
     cy.request({
       method: 'GET',
       url: `/usuarios/${userID}`,
