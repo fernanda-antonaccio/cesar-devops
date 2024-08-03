@@ -112,4 +112,19 @@ describe('Cadastro Simples de Usuário', () => {
       expect(response.body).to.have.property('message', 'Usuário não encontrado');
     })
   })
+
+  // Teste de Erro
+  it('Teste de Erro', () => {
+    cy.request({
+      method: 'GET',
+      url: `/usuarios/${userID}`,
+      headers: {
+        'Accept': 'application/json'
+      },
+      failOnStatusCode: false
+    }).should((response) => {
+      expect(response.status).to.eq(400);
+      expect(response.body).to.have.property('message', 'Usuário encontrado');
+    })
+  })
 })
