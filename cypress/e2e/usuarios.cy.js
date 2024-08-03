@@ -27,6 +27,29 @@ describe('Cadastro Simples de Usuário', () => {
     })
   })
 
+  it('Teste de Erro', () => {
+    email = createNewEmail();
+    nome = createNewName();
+
+    cy.request({
+      method: 'POST',
+      url: '/usuarios',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      body: {
+        email: email,
+        password: 'password123',
+        administrador: 'true'
+      }
+    }).should((response) => {
+      userID = response.body._id;
+      expect(response.status).to.eq(201);
+      expect(response.body).to.have.property('message', 'Cadastro realizado com sucesso');
+    })
+  })
+
   // Buscar usuário e verificar se ele está cadastrado
   it('Buscar usuário por ID', () => {
     cy.request({
@@ -110,21 +133,6 @@ describe('Cadastro Simples de Usuário', () => {
     }).should((response) => {
       expect(response.status).to.eq(400);
       expect(response.body).to.have.property('message', 'Usuário não encontrado');
-    })
-  })
-
-  // Teste de Erro
-  it('Teste de Erro', () => {
-    cy.request({
-      method: 'GET',
-      url: `/usuarios/${userID}`,
-      headers: {
-        'Accept': 'application/json'
-      },
-      failOnStatusCode: false
-    }).should((response) => {
-      expect(response.status).to.eq(400);
-      expect(response.body).to.have.property('message', 'Usuário encontrado');
     })
   })
 })
